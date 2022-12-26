@@ -1,0 +1,42 @@
+Table users {
+  id UUID [PK, not null]
+  email varchar [unique, not null]
+  username varchar [unique, not null]
+  password varchar [not null, note: 'hashed password']
+}
+
+Table rooms {
+  id UUID [PK, not null]
+  name varchar
+}
+
+Table users_rooms {
+  id UUID [PK, not null]
+  user_id UUID [not null]
+  room_id UUID [not null]
+}
+
+Table messages {
+  id UUID [PK, not null]
+  author_id UUID [not null]
+  room_id UUID [not null]
+  content varchar [default: '']
+  time timestamptz [default: 'now()']
+}
+
+Table attachments {
+  id UUID [PK, not null]
+  message_id UUID [not null]
+  content_type varchar [not null]
+  upload_time timestamptz [default: 'now()']
+}
+
+Ref: "users_rooms"."user_id" > "users"."id"
+
+Ref: "users_rooms"."room_id" > "rooms"."id"
+
+Ref: "users"."id" < "messages"."author_id"
+
+Ref: "messages"."room_id" > "rooms"."id"
+
+Ref: "attachments"."message_id" > "messages"."id"

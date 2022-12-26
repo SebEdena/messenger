@@ -1,0 +1,11 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "docker-compose: up",
+            "type": "node",
+            "request": "launch",
+            "preLaunchTask": "docker-compose-up"
+        },
+    ]
+}
