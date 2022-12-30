@@ -3,10 +3,10 @@ import { LoggerModule } from 'nestjs-pino';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
-import { ConfigModule } from '@nestjs/config';
-import { DatabaseModule } from './database/database.module';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
-import configuration from './config/configuration';
+import configuration from './config/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   imports: [
@@ -19,8 +19,13 @@ import configuration from './config/configuration';
         transport: { target: 'pino-pretty' },
       },
     }),
+    TypeOrmModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => ({
+        ...configService.get('orm'),
+      }),
+    }),
     AuthModule,
-    DatabaseModule,
     UsersModule,
   ],
   controllers: [AppController],

@@ -1,11 +1,11 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 import * as bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { CrudService } from 'src/_shared/crud.service';
 import { ConfigService } from '@nestjs/config';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class UsersService extends CrudService<User> implements OnModuleInit {
@@ -13,6 +13,7 @@ export class UsersService extends CrudService<User> implements OnModuleInit {
 
   constructor(
     private config: ConfigService,
+    @InjectRepository(User)
     protected repository: Repository<User>,
   ) {
     super(repository);
