@@ -5,6 +5,7 @@ services:
     image: postgres:15.1
     volumes:
       - .pgdata:/var/lib/postgresql/data
+      - .pgscripts:/docker-entrypoint-initdb.d
     ports:
       - 5432:5432
     environment:

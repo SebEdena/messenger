@@ -8,9 +8,9 @@ export default () => ({
     url: process.env.DATABASE_URL,
     synchronize: false,
     migrationsRun: false,
-    entities: ['src/**/*.entity{.ts,.js}'],
+    entities: [__dirname + '/../**/*.entity{.ts,.js}'],
     autoLoadEntities: true,
-    migrations: ['src/migrations/**/*{.ts,.js}'],
+    migrations: [__dirname + '/../**/migrations/**/*{.ts,.js}'],
     cli: {
       migrationsDir: 'src/migrations',
     },
