@@ -1,5 +1,9 @@
 export default () => ({
   database: process.env.DATABASE_URL,
+  jwt: {
+    secret: process.env.JWT_SECRET,
+    signOptions: { expiresIn: process.env.JWT_EXPIRES },
+  },
   hash: {
     saltRounds: parseInt(process.env.HASH_SALT_ROUNDS) || 10,
   },

@@ -1,32 +1,35 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import * as bcrypt from 'bcrypt';
-import { Repository } from 'typeorm';
-import { User } from './entities/user.entity';
-import { CrudService } from 'src/_shared/crud.service';
-import { ConfigService } from '@nestjs/config';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { BcryptService } from 'src/_shared/services/bcrypt/bcrypt.service';
+import { CrudService } from 'src/_shared/services/crud.service';
+import { Repository } from 'typeorm';
+import { CreateUserDto } from './dto/create-user.dto';
+import { User } from './entities/user.entity';
 
 @Injectable()
-export class UsersService extends CrudService<User> implements OnModuleInit {
-  private hashParams: { saltRounds: number };
-
+export class UsersService extends CrudService<User> {
   constructor(
-    private config: ConfigService,
     @InjectRepository(User)
     protected repository: Repository<User>,
+    private bcrypt: BcryptService,
   ) {
     super(repository);
   }
 
-  onModuleInit() {
-    this.hashParams = this.config.get('hash');
-  }
-
   async create(createUserDto: CreateUserDto) {
-    const hashedPassword = await bcrypt.hash(
+    const userInDb = await this.repository.findOneBy({
+      email: createUserDto.email,
+    });
+
+    if (userInDb) {
+      throw new HttpException(
+        `User ${createUserDto.email} already exists.`,
+        HttpStatus.CONFLICT,
+      );
+    }
+
+    const hashedPassword = await this.bcrypt.hashPassword(
       createUserDto.password,
-      this.hashParams.saltRounds,
     );
     await super.create({
       email: createUserDto.email,

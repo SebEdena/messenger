@@ -20,21 +20,17 @@ async function bootstrap() {
   );
   app.useLogger(app.get(Logger));
 
-  // const config = new DocumentBuilder()
-  //   .setTitle('Cats example')
-  //   .setDescription('The cats API description')
-  //   .setVersion('1.0')
-  //   .addTag('cats')
-  //   .build();
-  // const document = SwaggerModule.createDocument(app, config);
-  // SwaggerModule.setup('api', app, document);
+  const config = new DocumentBuilder()
+    .setTitle('Messenger')
+    .setDescription('Messenger API')
+    .setVersion('1.0')
+    .addBearerAuth()
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document);
 
   await app.listen(3000);
-
-  if (module.hot) {
-    module.hot.accept();
-    module.hot.dispose(() => app.close());
-  }
 }
 
 bootstrap();

@@ -5,9 +5,6 @@
   "author": "",
   "private": true,
   "license": "UNLICENSED",
-  "engines": {
-    "npm": ">=8.3.0"
-  },
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
@@ -27,9 +24,11 @@
     "migrate:run": "npm run typeorm -- migration:run -d src/config/ormconfig.ts"
   },
   "dependencies": {
+    "@fastify/static": "^6.6.0",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^9.0.0",
+    "@nestjs/jwt": "^10.0.1",
     "@nestjs/mapped-types": "*",
     "@nestjs/passport": "^9.0.0",
     "@nestjs/platform-fastify": "^9.2.0",
@@ -41,6 +40,7 @@
     "nestjs-pino": "^3.1.1",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
+    "passport-local": "^1.0.0",
     "pg": "^8.8.0",
     "pino-http": "^8.2.1",
     "pino-pretty": "^9.1.1",
@@ -55,8 +55,9 @@
     "@nestjs/testing": "^9.0.0",
     "@types/bcrypt": "^5.0.0",
     "@types/jest": "28.1.8",
-    "@types/node": "^16.0.0",
+    "@types/node": "^16.18.11",
     "@types/passport-jwt": "^3.0.8",
+    "@types/passport-local": "^1.0.34",
     "@types/supertest": "^2.0.11",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
