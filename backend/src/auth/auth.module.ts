@@ -1,32 +1,28 @@
 import { Module } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { AuthController } from './auth.controller';
-import { BcryptService } from 'src/_shared/services/bcrypt/bcrypt.service';
-import { UsersModule } from 'src/users/users.module';
-import { PassportModule } from '@nestjs/passport';
-import { LocalStrategy } from './strategies/local.strategy';
 import { JwtModule } from '@nestjs/jwt';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { JwtStrategy } from './strategies/jwt.strategy';
-import { UsersService } from 'src/users/users.service';
+import { PassportModule } from '@nestjs/passport';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UsersModule } from 'src/resources/users/users.module';
+import { UsersService } from 'src/resources/users/users.service';
+import { AuthController } from './auth.controller';
+import { AuthService } from './auth.service';
+import { RefreshToken } from './entities/refresh-token.entity';
+import { TokenService } from './services/token/token.service';
+import { JwtAccessStrategy } from './strategies/jwt-access.strategy';
+import { JwtRefreshStrategy } from './strategies/jwt-refresh.strategy';
 
 @Module({
   imports: [
-    JwtModule.registerAsync({
-      imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
-        ...configService.get('jwt'),
-      }),
-      inject: [ConfigService],
-    }),
+    JwtModule.register({}),
     PassportModule,
+    TypeOrmModule.forFeature([RefreshToken]),
     UsersModule,
   ],
   providers: [
-    BcryptService,
+    JwtAccessStrategy,
+    JwtRefreshStrategy,
     AuthService,
-    LocalStrategy,
-    JwtStrategy,
+    TokenService,
     UsersService,
   ],
   controllers: [AuthController],

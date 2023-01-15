@@ -1,14 +1,12 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
-export class BcryptService implements OnModuleInit {
+export class BcryptService {
   private hashParams: { saltRounds: number };
 
-  constructor(private config: ConfigService) {}
-
-  onModuleInit() {
+  constructor(private config: ConfigService) {
     this.hashParams = this.config.get('hash');
   }
 

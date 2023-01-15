@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { BcryptService } from 'src/_shared/services/bcrypt/bcrypt.service';
+import { BcryptService } from 'src/resources/users/services/bcrypt/bcrypt.service';
 import { CrudService } from 'src/_shared/services/crud.service';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -31,10 +31,19 @@ export class UsersService extends CrudService<User> {
     const hashedPassword = await this.bcrypt.hashPassword(
       createUserDto.password,
     );
-    await super.create({
+
+    return await super.create({
       email: createUserDto.email,
       username: createUserDto.username,
       password: hashedPassword,
     });
+  }
+
+  async validateUser(email: string, password: string): Promise<User | null> {
+    const user = await this.findOne({ email });
+    if (user && this.bcrypt.comparePasswords(password, user.password)) {
+      return user;
+    }
+    return null;
   }
 }
