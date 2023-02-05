@@ -13,7 +13,7 @@ export class AuthService {
 
   private async handleTokens(userId: string) {
     const tokens = await this.tokenService.generateTokens(userId);
-    await this.tokenService.refreshToken(userId, tokens.refreshToken);
+    await this.tokenService.updateRefreshToken(userId, tokens.refreshToken);
     return tokens;
   }
 

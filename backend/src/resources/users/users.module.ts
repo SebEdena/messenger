@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
-import { User } from '../resources/users/entities/user.entity';
+import { User } from './entities/user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { BcryptService } from 'src/resources/users/services/bcrypt/bcrypt.service';
 
@@ -9,6 +9,6 @@ import { BcryptService } from 'src/resources/users/services/bcrypt/bcrypt.servic
   imports: [TypeOrmModule.forFeature([User])],
   providers: [BcryptService, UsersService],
   controllers: [UsersController],
-  exports: [TypeOrmModule],
+  exports: [BcryptService, TypeOrmModule],
 })
 export class UsersModule {}

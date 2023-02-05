@@ -1,4 +1,5 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
+import { UnauthorizedException } from '@nestjs/common/exceptions';
 import { ConfigService } from '@nestjs/config';
 import { JwtService, JwtSignOptions } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -52,7 +53,7 @@ export class TokenService extends CrudService<RefreshToken> {
   async refreshToken(userId: string, refreshToken: string) {
     const token = await this.findOne({ userId, refreshToken });
     if (!token) {
-      throw new ForbiddenException('Access Denied');
+      throw new UnauthorizedException();
     }
     const tokens = await this.generateTokens(userId);
     await this.updateRefreshToken(userId, tokens.refreshToken);
@@ -63,7 +64,7 @@ export class TokenService extends CrudService<RefreshToken> {
     await this.repository.delete({ userId });
   }
 
-  private async updateRefreshToken(userId: string, refreshToken: string) {
+  async updateRefreshToken(userId: string, refreshToken: string) {
     await this.repository.upsert({ userId, refreshToken }, ['userId']);
   }
 }
