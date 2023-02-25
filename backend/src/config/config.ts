@@ -1,4 +1,8 @@
 export default () => ({
+  auth: {
+    local: process.env.LOCAL === 'true',
+    localAccount: process.env.LOCAL_ACCOUNT ?? '',
+  },
   database: process.env.DATABASE_URL,
   jwt: {
     access: {
