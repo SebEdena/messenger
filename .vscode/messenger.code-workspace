@@ -1,29 +1,36 @@
 {
-	"folders": [
-		{
-			"path": "../",
-			"name": "root"
-		},
-		{
-			"path": "../backend",
-			"name": "backend",
-		},
-		{
-			"path": "../frontend",
-			"name": "frontend",
-		}
-	],
-	"settings": {
-		"files.exclude": {
-			".": true,
-			"frontend": true,
-			"backend": true,
-			"**/.git": true,
-			"**/.svn": true,
-			"**/.hg": true,
-			"**/CVS": true,
-			"**/.DS_Store": true,
-			"**/Thumbs.db": true
-		}
-	}
+    "folders": [
+        {
+            "path": "../",
+            "name": "root"
+        },
+        {
+            "path": "../backend",
+            "name": "backend"
+        },
+        {
+            "path": "../frontend",
+            "name": "frontend"
+        }
+    ],
+    "settings": {
+        "files.exclude": {
+            ".": true,
+            "frontend": true,
+            "backend": true,
+            "**/.git": true,
+            "**/.svn": true,
+            "**/.hg": true,
+            "**/CVS": true,
+            "**/.DS_Store": true,
+            "**/Thumbs.db": true
+        },
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.codeActionsOnSave": {
+            "source.fixAll": true
+        },
+        "eslint.validate": ["javascript", "javascriptreact", "html", "typescriptreact"]
+    }
 }
+

@@ -8,6 +8,7 @@ import { CrudService } from 'src/_shared/services/crud.service';
 import { Repository } from 'typeorm';
 
 export type JwtPayload = {
+  uid: string;
   sub: string;
 };
 
@@ -32,14 +33,16 @@ export class TokenService extends CrudService<RefreshToken> {
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(
         {
+          uid: userId,
           sub: userId,
-        },
+        } as JwtPayload,
         this.jwtAccessConfig,
       ),
       this.jwtService.signAsync(
         {
+          uid: userId,
           sub: userId,
-        },
+        } as JwtPayload,
         this.jwtRefreshConfig,
       ),
     ]);

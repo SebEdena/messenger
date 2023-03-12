@@ -11,24 +11,31 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { CurrentUser } from './decorators/current-user.decorator';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { User } from './entities/user.entity';
+import { UserInterceptor } from './interceptors/user.interceptor';
 import { UsersService } from './users.service';
 
 @ApiTags('users')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
+@UseInterceptors(ClassSerializerInterceptor, UserInterceptor)
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @Get('/me')
+  me(@CurrentUser() user: User) {
+    return user;
+  }
+
   @Get()
-  @UseInterceptors(ClassSerializerInterceptor)
   findAll() {
     return this.usersService.find();
   }
 
   @Get(':id')
-  @UseInterceptors(ClassSerializerInterceptor)
   findOne(@Param('id') id: string) {
     return this.usersService.findOneById(id);
   }

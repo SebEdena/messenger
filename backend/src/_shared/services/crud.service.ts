@@ -11,11 +11,11 @@ export class CrudService<Entity extends { id: string }> {
     return await this.repository.findBy(data);
   }
 
-  async findOne(data: FindOptionsWhere<Entity> = {}) {
+  async findOne(data: FindOptionsWhere<Entity> = {}): Promise<Entity | null> {
     return await this.repository.findOneBy(data);
   }
 
-  async findOneById(id: string) {
+  async findOneById(id: string): Promise<Entity | null> {
     return await this.findOne({ id } as FindOptionsWhere<Entity>);
   }
 
