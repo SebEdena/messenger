@@ -6,10 +6,10 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { UsersService } from '../users.service';
+import { UsersService } from '../../resources/users/users.service';
 
 @Injectable()
-export class UserInterceptor implements NestInterceptor {
+export class ConnectedUserInterceptor implements NestInterceptor {
   constructor(private config: ConfigService, private users: UsersService) {}
 
   async intercept(context: ExecutionContext, next: CallHandler) {

@@ -1,6 +1,5 @@
 import {
   Body,
-  ClassSerializerInterceptor,
   Controller,
   Delete,
   Get,
@@ -11,22 +10,22 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { CurrentUser } from './decorators/current-user.decorator';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
-import { UserInterceptor } from './interceptors/user.interceptor';
+import { ConnectedUserInterceptor } from '../../auth/interceptors/connected-user.interceptor';
 import { UsersService } from './users.service';
+import { ConnectedUser } from 'src/auth/decorators/connected-user.decorator';
 
 @ApiTags('users')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
-@UseInterceptors(ClassSerializerInterceptor, UserInterceptor)
+@UseInterceptors(ConnectedUserInterceptor)
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get('/me')
-  me(@CurrentUser() user: User) {
+  me(@ConnectedUser() user: User) {
     return user;
   }
 

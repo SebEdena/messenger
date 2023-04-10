@@ -18,6 +18,7 @@
             ".": true,
             "frontend": true,
             "backend": true,
+            "**/node_modules": true,
             "**/.git": true,
             "**/.svn": true,
             "**/.hg": true,

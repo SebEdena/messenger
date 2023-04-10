@@ -9,13 +9,13 @@ import {
 import { ApiTags } from '@nestjs/swagger';
 import { CreateUserDto } from 'src/resources/users/dto/create-user.dto';
 import { AuthService } from './auth.service';
-import { CurrentUser } from '../resources/users/decorators/current-user.decorator';
 import { LoginDto } from './dto/login.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { JwtRefreshAuthGuard } from './guards/jwt-refresh-auth.guard';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { User } from 'src/resources/users/entities/user.entity';
-import { UserInterceptor } from 'src/resources/users/interceptors/user.interceptor';
+import { ConnectedUserInterceptor } from './interceptors/connected-user.interceptor';
+import { ConnectedUser } from './decorators/connected-user.decorator';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -33,10 +33,10 @@ export class AuthController {
   }
 
   @UseGuards(JwtRefreshAuthGuard)
-  @UseInterceptors(UserInterceptor)
+  @UseInterceptors(ConnectedUserInterceptor)
   @Post('refresh')
   async refresh(
-    @CurrentUser() user: User,
+    @ConnectedUser() user: User,
     @Body() refreshTokenDto: RefreshTokenDto,
   ) {
     return await this.authService.refreshToken(
@@ -46,9 +46,9 @@ export class AuthController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @UseInterceptors(UserInterceptor)
+  @UseInterceptors(ConnectedUserInterceptor)
   @Get('logout')
-  async logout(@CurrentUser() userId: string) {
+  async logout(@ConnectedUser() userId: string) {
     await this.authService.logout(userId);
   }
 }
