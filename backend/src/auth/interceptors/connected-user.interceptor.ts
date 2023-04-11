@@ -6,11 +6,17 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { UsersService } from '../../resources/users/users.service';
+import { User } from 'src/resources/users/entities/user.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class ConnectedUserInterceptor implements NestInterceptor {
-  constructor(private config: ConfigService, private users: UsersService) {}
+  constructor(
+    private config: ConfigService,
+    @InjectRepository(User)
+    protected users: Repository<User>,
+  ) {}
 
   async intercept(context: ExecutionContext, next: CallHandler) {
     const request = context.switchToHttp().getRequest();
@@ -22,7 +28,7 @@ export class ConnectedUserInterceptor implements NestInterceptor {
     }
 
     try {
-      const user = await this.users.findOne({ email });
+      const user = await this.users.findOneBy({ email });
       request.currentUser = user;
     } catch (error) {
       throw new UnauthorizedException();

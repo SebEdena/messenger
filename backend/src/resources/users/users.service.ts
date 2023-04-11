@@ -1,10 +1,10 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BcryptService } from 'src/resources/users/services/bcrypt/bcrypt.service';
-import { CrudService } from 'src/_shared/services/crud.service';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
+import { CrudService } from 'src/_shared/crud.service';
 
 @Injectable()
 export class UsersService extends CrudService<User> {
@@ -36,6 +36,7 @@ export class UsersService extends CrudService<User> {
       email: createUserDto.email,
       username: createUserDto.username,
       password: hashedPassword,
+      rooms: [],
     });
   }
 

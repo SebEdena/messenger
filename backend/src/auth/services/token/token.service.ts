@@ -1,10 +1,10 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { UnauthorizedException } from '@nestjs/common/exceptions';
 import { ConfigService } from '@nestjs/config';
 import { JwtService, JwtSignOptions } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
+import { CrudService } from 'src/_shared/crud.service';
 import { RefreshToken } from 'src/auth/entities/refresh-token.entity';
-import { CrudService } from 'src/_shared/services/crud.service';
 import { Repository } from 'typeorm';
 
 export type JwtPayload = {
