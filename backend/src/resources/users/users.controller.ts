@@ -37,28 +37,34 @@ export class UsersController {
     return this.usersService.find();
   }
 
-  @Get(':id')
+  @Get(':userId')
   @UseInterceptors(GetUserInterceptor)
-  @ApiParam({ name: 'id', format: 'uuid', type: 'string' })
-  findOne(@Param('id', ParseUUIDPipe) id: string, @GetUser() user: User) {
+  @ApiParam({ name: 'userId', format: 'uuid', type: 'string' })
+  findOne(
+    @Param('userId', ParseUUIDPipe) userId: string,
+    @GetUser() user: User,
+  ) {
     return user;
   }
 
-  @Patch(':id')
+  @Patch(':userId')
   @UseInterceptors(GetUserInterceptor)
-  @ApiParam({ name: 'id', format: 'uuid', type: 'string' })
+  @ApiParam({ name: 'userId', format: 'uuid', type: 'string' })
   update(
-    @Param('id', ParseUUIDPipe) id: string,
+    @Param('userId', ParseUUIDPipe) userId: string,
     @Body() updateUserDto: UpdateUserDto,
     @GetUser() user: User,
   ) {
     return this.usersService.update(user, updateUserDto);
   }
 
-  @Delete(':id')
+  @Delete(':userId')
   @UseInterceptors(GetUserInterceptor)
-  @ApiParam({ name: 'id', format: 'uuid', type: 'string' })
-  delete(@Param('id', ParseUUIDPipe) id: string, @GetUser() user: User) {
+  @ApiParam({ name: 'userId', format: 'uuid', type: 'string' })
+  delete(
+    @Param('userId', ParseUUIDPipe) userId: string,
+    @GetUser() user: User,
+  ) {
     return this.usersService.delete(user.id);
   }
 }

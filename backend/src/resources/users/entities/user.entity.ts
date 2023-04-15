@@ -1,7 +1,7 @@
 import { ApiHideProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
-import { IsEmail, IsString, IsUUID, MaxLength } from 'class-validator';
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { IsEmail, IsString, MaxLength } from 'class-validator';
+import { Column, Entity, ManyToMany, Relation } from 'typeorm';
 import { Room } from '../../rooms/entities/room.entity';
 import { AbstractEntity } from 'src/_shared/abstract.entity';
 
@@ -23,5 +23,5 @@ export class User extends AbstractEntity {
   password: string;
 
   @ManyToMany(() => Room, (room) => room.users)
-  rooms: Room[];
+  rooms: Relation<Room[]>;
 }

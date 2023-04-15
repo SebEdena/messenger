@@ -1,32 +1,26 @@
-import {
-  CallHandler,
-  ExecutionContext,
-  Injectable,
-  NestInterceptor,
-  NotFoundException,
-  UnprocessableEntityException,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { IdToValueInterceptor } from 'src/_shared/id-to-value.interceptor';
+import { User } from '../entities/user.entity';
 import { UsersService } from '../users.service';
-import { isUUID } from 'class-validator';
 
 @Injectable()
-export class GetUserInterceptor implements NestInterceptor {
-  constructor(private users: UsersService) {}
+export class GetUserInterceptor extends IdToValueInterceptor<User> {
+  key = 'userId';
 
-  async intercept(context: ExecutionContext, next: CallHandler) {
-    const request = context.switchToHttp().getRequest();
+  constructor(protected config: ConfigService, protected users: UsersService) {
+    super(config, users);
+  }
 
-    if (request.params.id) {
-      if (!isUUID(request.params.id, 4)) {
-        throw new UnprocessableEntityException('id is not an UUID');
-      }
-      const user = await this.users.findOneById(request.params.id);
-      if (user) {
-        request.user = user;
-        return next.handle();
-      }
-    }
+  protected getId(request: any): string {
+    return request.params.userId;
+  }
 
-    throw new NotFoundException();
+  protected setValue(request: any, entity: User): void {
+    request.user = entity;
+  }
+
+  protected hasRights(userId: string, entity: User): boolean {
+    return entity.email === userId;
   }
 }

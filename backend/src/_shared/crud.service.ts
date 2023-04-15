@@ -1,42 +1,67 @@
 import {
   DeepPartial,
   FindOptionsOrder,
+  FindOptionsRelations,
   FindOptionsWhere,
   Repository,
 } from 'typeorm';
 import { AbstractEntity } from './abstract.entity';
 
+export type FindManyOptions<Entity> = {
+  filter: FindOptionsWhere<Entity>;
+  sort: FindOptionsOrder<Entity>;
+  skip: number;
+  take: number;
+  relations: FindOptionsRelations<Entity>;
+};
+
 export class CrudService<Entity extends AbstractEntity> {
   constructor(protected repository: Repository<Entity>) {}
 
-  async create(entity: DeepPartial<Entity>) {
-    return await this.repository.save(this.repository.create(entity));
+  async create(entity: DeepPartial<Entity>): Promise<Entity> {
+    return this.repository.save(this.repository.create(entity));
   }
 
   async find(
-    filter: FindOptionsWhere<Entity> = {},
-    sort: FindOptionsOrder<Entity> = { id: 'ASC' } as FindOptionsOrder<Entity>,
-    skip = 0,
-    limit?: number,
-  ) {
-    return await this.repository.find({
+    {
+      filter,
+      sort,
+      skip,
+      take,
+      relations,
+    }: Partial<FindManyOptions<Entity>> = {
+      filter: {},
+      sort: { id: 'ASC' } as FindOptionsOrder<Entity>,
+      skip: 0,
+      take: undefined,
+      relations: {},
+    },
+  ): Promise<Entity[]> {
+    return this.repository.find({
       where: filter,
       order: sort,
-      skip,
-      take: limit,
+      skip: skip,
+      take: take,
+      relations: relations,
     });
   }
 
-  async findOne(filter: FindOptionsWhere<Entity> = {}): Promise<Entity | null> {
-    return await this.repository.findOneBy(filter);
+  async findOne(
+    filter: FindOptionsWhere<Entity> = {},
+    relations: FindOptionsRelations<Entity> = {},
+  ): Promise<Entity | null> {
+    return this.repository.findOne({ where: filter, relations });
   }
 
-  async findOneById(id: string): Promise<Entity | null> {
-    return await this.findOne({ id } as FindOptionsWhere<Entity>);
+  async findOneById(
+    id: string,
+    relations: FindOptionsRelations<Entity> = {},
+  ): Promise<Entity | null> {
+    return this.findOne({ id } as FindOptionsWhere<Entity>, relations);
   }
 
-  async update(entity: Entity, update: DeepPartial<Entity>) {
-    await this.repository.save({ ...entity, ...update });
+  async update(entity: Entity, update: DeepPartial<Entity>): Promise<Entity> {
+    return this.repository.save({ ...entity, ...update });
   }
 
   async delete(id: string) {

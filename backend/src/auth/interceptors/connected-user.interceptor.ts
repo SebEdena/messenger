@@ -28,7 +28,10 @@ export class ConnectedUserInterceptor implements NestInterceptor {
     }
 
     try {
-      const user = await this.users.findOneBy({ email });
+      const user = await this.users.findOne({
+        where: { email },
+        relations: { rooms: true },
+      });
       request.currentUser = user;
     } catch (error) {
       throw new UnauthorizedException();

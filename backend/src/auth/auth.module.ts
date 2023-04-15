@@ -19,13 +19,7 @@ import { User } from 'src/resources/users/entities/user.entity';
     TypeOrmModule.forFeature([RefreshToken, User]),
     UsersModule,
   ],
-  providers: [
-    JwtAccessStrategy,
-    JwtRefreshStrategy,
-    AuthService,
-    TokenService,
-    UsersService,
-  ],
+  providers: [JwtAccessStrategy, JwtRefreshStrategy, AuthService, TokenService],
   controllers: [AuthController],
   exports: [TypeOrmModule],
 })

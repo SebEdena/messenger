@@ -1,4 +1,7 @@
 export default () => ({
+  app: {
+    defaultPagination: parseInt(process.env.APP_PAGINATION) || 20,
+  },
   auth: {
     local: process.env.LOCAL === 'true',
     localAccount: process.env.LOCAL_ACCOUNT ?? '',
@@ -28,5 +31,6 @@ export default () => ({
     cli: {
       migrationsDir: 'src/migrations',
     },
+    logging: process.env.LOCAL === 'true',
   },
 });

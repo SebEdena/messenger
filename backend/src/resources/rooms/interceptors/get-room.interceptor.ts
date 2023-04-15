@@ -1,32 +1,30 @@
-import {
-  CallHandler,
-  ExecutionContext,
-  Injectable,
-  NestInterceptor,
-  NotFoundException,
-  UnprocessableEntityException,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { IdToValueInterceptor } from 'src/_shared/id-to-value.interceptor';
+import { Room } from '../entities/room.entity';
 import { RoomsService } from '../rooms.service';
-import { isUUID } from 'class-validator';
+import { FindOptionsRelations } from 'typeorm';
 
 @Injectable()
-export class GetRoomInterceptor implements NestInterceptor {
-  constructor(private rooms: RoomsService) {}
+export class GetRoomInterceptor extends IdToValueInterceptor<Room> {
+  key = 'roomId';
+  override relations: FindOptionsRelations<Room> = {
+    users: true,
+  };
 
-  async intercept(context: ExecutionContext, next: CallHandler) {
-    const request = context.switchToHttp().getRequest();
+  constructor(protected config: ConfigService, protected rooms: RoomsService) {
+    super(config, rooms);
+  }
 
-    if (request.params.id) {
-      if (!isUUID(request.params.id, 4)) {
-        throw new UnprocessableEntityException('id is not an UUID');
-      }
-      const room = await this.rooms.findOneById(request.params.id);
-      if (room) {
-        request.room = room;
-        return next.handle();
-      }
-    }
+  protected getId(request: any): string {
+    return request.params.roomId;
+  }
 
-    throw new NotFoundException();
+  protected setValue(request: any, entity: Room): void {
+    request.room = entity;
+  }
+
+  protected hasRights(userId: string, entity: Room): boolean {
+    return entity.users.some((u) => u.email === userId);
   }
 }
