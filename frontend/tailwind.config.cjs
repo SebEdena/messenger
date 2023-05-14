@@ -2,10 +2,17 @@ const config = {
 	content: ['./src/**/*.{html,js,svelte,ts}'],
 
 	theme: {
-		extend: {}
+		extend: {
+			colors: {
+				background: 'rgb(var(--color-background))',
+				font: 'rgb(var(--color-font))'
+			}
+		}
 	},
 
-	plugins: []
+	plugins: [],
+
+	darkMode: 'class'
 };
 
 module.exports = config;

@@ -32,7 +32,10 @@
             "source.organizeImports": true,
             "source.fixAll": true
         },
-        "eslint.validate": ["javascript", "javascriptreact", "html", "typescriptreact"]
+        "eslint.validate": ["javascript", "javascriptreact", "html", "typescriptreact"],
+        "[svg]": {
+            "editor.defaultFormatter": "jock.svg"
+        }
     }
 }
 
