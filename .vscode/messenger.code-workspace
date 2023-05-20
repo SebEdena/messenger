@@ -5,6 +5,10 @@
             "name": "root"
         },
         {
+            "path": "../common",
+            "name": "common"
+        },
+        {
             "path": "../backend",
             "name": "backend"
         },
@@ -18,6 +22,7 @@
             ".": true,
             "frontend": true,
             "backend": true,
+            "common": true,
             "**/node_modules": true,
             "**/.git": true,
             "**/.svn": true,

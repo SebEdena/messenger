@@ -1,0 +1,20 @@
+{
+    "private": true,
+    "scripts": {
+        "build": "tsc -b"
+    },
+    "dependencies": {
+        "@nestjs/swagger": "^6.3.0",
+        "class-transformer": "^0.5.1",
+        "class-validator": "^0.14.0",
+        "tslib": "^2.5.2",
+        "typeorm": "^0.3.16"
+    },
+    "devDependencies": {
+        "@types/node": "^20.2.1",
+        "typescript": "^5.0.4"
+    },
+    "_moduleAliases": {
+        "@entities": "./dist/entities"
+    }
+}

@@ -1,3 +1,4 @@
+import { AbstractEntity } from 'common/src/entities/abstract';
 import {
   DeepPartial,
   FindOptionsOrder,
@@ -5,7 +6,6 @@ import {
   FindOptionsWhere,
   Repository,
 } from 'typeorm';
-import { AbstractEntity } from './abstract.entity';
 
 export type FindManyOptions<Entity> = {
   filter: FindOptionsWhere<Entity>;

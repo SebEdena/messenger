@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { IdToValueInterceptor } from 'src/_shared/id-to-value.interceptor';
-import { User } from '../entities/user.entity';
+import { User } from '../../../../../common/src/entities/user.entity';
 import { UsersService } from '../users.service';
 
 @Injectable()

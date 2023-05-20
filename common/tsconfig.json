@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "experimentalDecorators": true,
+        "declaration": true,
+        "baseUrl": "src",
+        "outDir": "dist",
+        "paths": {
+            "@entities/*": ["entities/*"]
+        }
+    },
+    "include": ["src/**/*.ts"],
+    "exclude": ["node_modules", "dist"],
+    "target": "es2017",
+    "module": "commonjs",
+    "lib": ["es2017"]
+}
+

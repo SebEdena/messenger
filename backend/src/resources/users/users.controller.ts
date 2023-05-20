@@ -10,14 +10,14 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiParam, ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { User } from './entities/user.entity';
-import { ConnectedUserInterceptor } from '../../auth/interceptors/connected-user.interceptor';
-import { UsersService } from './users.service';
 import { ConnectedUser } from 'src/auth/decorators/connected-user.decorator';
-import { GetUserInterceptor } from './interceptors/get-user.interceptor';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { User } from '../../../../common/src/entities/user.entity';
+import { ConnectedUserInterceptor } from '../../auth/interceptors/connected-user.interceptor';
 import { GetUser } from './decorators/get-user.decorator';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { GetUserInterceptor } from './interceptors/get-user.interceptor';
+import { UsersService } from './users.service';
 
 @ApiTags('users')
 @ApiBearerAuth()

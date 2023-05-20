@@ -6,11 +6,11 @@ import {
   UnauthorizedException,
   UnprocessableEntityException,
 } from '@nestjs/common';
-import { CrudService } from './crud.service';
-import { AbstractEntity } from './abstract.entity';
-import { isUUID } from 'class-validator';
 import { ConfigService } from '@nestjs/config';
+import { isUUID } from 'class-validator';
+import { AbstractEntity } from 'common/src/entities/abstract';
 import { FindOptionsRelations } from 'typeorm';
+import { CrudService } from './crud.service';
 
 export abstract class IdToValueInterceptor<Entity extends AbstractEntity>
   implements NestInterceptor

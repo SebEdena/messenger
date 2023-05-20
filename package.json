@@ -1,0 +1,8 @@
+{
+    "name": "messenger",
+    "private": true,
+    "workspaces": [
+        "common"
+    ]
+}
+

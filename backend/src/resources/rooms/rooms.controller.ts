@@ -13,18 +13,18 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ApiBearerAuth, ApiParam, ApiTags } from '@nestjs/swagger';
+import { CreateMessageDto } from 'common/src/dtos/create-message.dto';
+import { CreateRoomDto } from 'common/src/dtos/create-room.dto';
 import { ConnectedUser } from 'src/auth/decorators/connected-user.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { Room } from '../../../../common/src/entities/room.entity';
+import { User } from '../../../../common/src/entities/user.entity';
 import { ConnectedUserInterceptor } from '../../auth/interceptors/connected-user.interceptor';
 import { GetMessage } from '../messages/decorators/get-message.decorator';
-import { CreateMessageDto } from '../messages/dto/create-message.dto';
 import { Message } from '../messages/entities/message.entity';
 import { MessagesService } from '../messages/messages.service';
-import { User } from '../users/entities/user.entity';
 import { GetRoom } from './decorators/get-room.decorator';
-import { CreateRoomDto } from './dto/create-room.dto';
 import { UpdateRoomDto } from './dto/update-room.dto';
-import { Room } from './entities/room.entity';
 import { GetRoomInterceptor } from './interceptors/get-room.interceptor';
 import { RoomsService } from './rooms.service';
 

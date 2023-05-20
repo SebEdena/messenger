@@ -3,9 +3,9 @@ import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CrudService, FindManyOptions } from 'src/_shared/crud.service';
 import { Repository, SelectQueryBuilder } from 'typeorm';
+import { Room } from '../../../../common/src/entities/room.entity';
+import { User } from '../../../../common/src/entities/user.entity';
 import { Message } from '../messages/entities/message.entity';
-import { User } from '../users/entities/user.entity';
-import { Room } from './entities/room.entity';
 
 @Injectable()
 export class RoomsService extends CrudService<Room> {
