@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { Room } from 'common/entities';
 import { AuthModule } from 'src/auth/auth.module';
-import { Room } from '../../../../common/src/entities/room.entity';
 import { MessagesModule } from '../messages/messages.module';
 import { RoomsController } from './rooms.controller';
 import { RoomsService } from './rooms.service';

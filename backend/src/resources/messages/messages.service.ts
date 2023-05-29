@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Message } from 'common/entities';
 import { CrudService } from 'src/_shared/crud.service';
 import { DeepPartial, Repository } from 'typeorm';
-import { Message } from './entities/message.entity';
 
 @Injectable()
 export class MessagesService extends CrudService<Message> {
   constructor(
     @InjectRepository(Message)
-    protected repository: Repository<Message>,
+    protected repository: Repository<Message>
   ) {
     super(repository);
   }

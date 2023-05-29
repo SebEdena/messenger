@@ -1,22 +1,15 @@
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { NestFactory, Reflector } from '@nestjs/core';
-import {
-  FastifyAdapter,
-  NestFastifyApplication,
-} from '@nestjs/platform-fastify';
+import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { Logger } from 'nestjs-pino';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestFastifyApplication>(
-    AppModule,
-    new FastifyAdapter(),
-    {
-      logger: ['log', 'error', 'warn', 'debug', 'verbose'],
-      bufferLogs: true,
-    },
-  );
+  const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), {
+    logger: ['log', 'error', 'warn', 'debug', 'verbose'],
+    bufferLogs: true,
+  });
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
   app.useLogger(app.get(Logger));
   app.useGlobalPipes(new ValidationPipe());

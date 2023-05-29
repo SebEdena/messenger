@@ -6,8 +6,8 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { User } from 'src/resources/users/entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { User } from 'common/entities';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -15,7 +15,7 @@ export class ConnectedUserInterceptor implements NestInterceptor {
   constructor(
     private config: ConfigService,
     @InjectRepository(User)
-    protected users: Repository<User>,
+    protected users: Repository<User>
   ) {}
 
   async intercept(context: ExecutionContext, next: CallHandler) {

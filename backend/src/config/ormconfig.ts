@@ -7,4 +7,11 @@ ConfigModule.forRoot({
   load: [dbConfiguration],
 });
 
-export default new DataSource(dbConfiguration()['orm'] as any);
+export default new DataSource({
+  ...dbConfiguration()['orm'],
+  entities: ['../common/entities/*.entity{.ts,.js}'],
+  migrations: [__dirname + '/../**/migrations/**/*{.ts,.js}'],
+  cli: {
+    migrationsDir: 'src/migrations',
+  },
+} as any);

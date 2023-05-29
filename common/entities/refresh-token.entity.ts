@@ -1,6 +1,5 @@
-import { AbstractEntity } from 'common/src/entities/abstract.entity';
-import { User } from 'common/src/entities/user.entity';
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
+import { AbstractEntity, User } from './index';
 
 @Entity()
 export class RefreshToken extends AbstractEntity {

@@ -10,12 +10,12 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiParam, ApiTags } from '@nestjs/swagger';
+import { UpdateUserDto } from 'common/dtos';
+import { User } from 'common/entities/user.entity';
 import { ConnectedUser } from 'src/auth/decorators/connected-user.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { User } from '../../../../common/src/entities/user.entity';
 import { ConnectedUserInterceptor } from '../../auth/interceptors/connected-user.interceptor';
 import { GetUser } from './decorators/get-user.decorator';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { GetUserInterceptor } from './interceptors/get-user.interceptor';
 import { UsersService } from './users.service';
 
@@ -40,10 +40,7 @@ export class UsersController {
   @Get(':userId')
   @UseInterceptors(GetUserInterceptor)
   @ApiParam({ name: 'userId', format: 'uuid', type: 'string' })
-  findOne(
-    @Param('userId', ParseUUIDPipe) userId: string,
-    @GetUser() user: User,
-  ) {
+  findOne(@Param('userId', ParseUUIDPipe) userId: string, @GetUser() user: User) {
     return user;
   }
 
@@ -53,7 +50,7 @@ export class UsersController {
   update(
     @Param('userId', ParseUUIDPipe) userId: string,
     @Body() updateUserDto: UpdateUserDto,
-    @GetUser() user: User,
+    @GetUser() user: User
   ) {
     return this.usersService.update(user, updateUserDto);
   }
@@ -61,10 +58,7 @@ export class UsersController {
   @Delete(':userId')
   @UseInterceptors(GetUserInterceptor)
   @ApiParam({ name: 'userId', format: 'uuid', type: 'string' })
-  delete(
-    @Param('userId', ParseUUIDPipe) userId: string,
-    @GetUser() user: User,
-  ) {
+  delete(@Param('userId', ParseUUIDPipe) userId: string, @GetUser() user: User) {
     return this.usersService.delete(user.id);
   }
 }

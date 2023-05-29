@@ -1,21 +1,12 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Post,
-  UseGuards,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { CreateUserDto } from 'src/resources/users/dto/create-user.dto';
+import { CreateUserDto, LoginDto, RefreshTokenDto } from 'common/dtos';
+import { User } from 'common/entities';
 import { AuthService } from './auth.service';
-import { LoginDto } from './dto/login.dto';
-import { RefreshTokenDto } from './dto/refresh-token.dto';
-import { JwtRefreshAuthGuard } from './guards/jwt-refresh-auth.guard';
-import { JwtAuthGuard } from './guards/jwt-auth.guard';
-import { User } from 'src/resources/users/entities/user.entity';
-import { ConnectedUserInterceptor } from './interceptors/connected-user.interceptor';
 import { ConnectedUser } from './decorators/connected-user.decorator';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { JwtRefreshAuthGuard } from './guards/jwt-refresh-auth.guard';
+import { ConnectedUserInterceptor } from './interceptors/connected-user.interceptor';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -35,14 +26,8 @@ export class AuthController {
   @UseGuards(JwtRefreshAuthGuard)
   @UseInterceptors(ConnectedUserInterceptor)
   @Post('refresh')
-  async refresh(
-    @ConnectedUser() user: User,
-    @Body() refreshTokenDto: RefreshTokenDto,
-  ) {
-    return await this.authService.refreshToken(
-      user.id,
-      refreshTokenDto.refreshToken,
-    );
+  async refresh(@ConnectedUser() user: User, @Body() refreshTokenDto: RefreshTokenDto) {
+    return await this.authService.refreshToken(user.id, refreshTokenDto.refreshToken);
   }
 
   @UseGuards(JwtAuthGuard)

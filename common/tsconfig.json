@@ -1,17 +1,15 @@
 {
-    "compilerOptions": {
-        "experimentalDecorators": true,
-        "declaration": true,
-        "baseUrl": "src",
-        "outDir": "dist",
-        "paths": {
-            "@entities/*": ["entities/*"]
-        }
-    },
-    "include": ["src/**/*.ts"],
-    "exclude": ["node_modules", "dist"],
-    "target": "es2017",
+  "compilerOptions": {
     "module": "commonjs",
-    "lib": ["es2017"]
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "declaration": true,
+    "baseUrl": ".",
+    "outDir": "."
+  },
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules", "dist"],
+  "target": "es2017",
+  "module": "commonjs",
+  "lib": ["es2017"]
 }
-
