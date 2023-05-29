@@ -6,19 +6,16 @@ import {
   UnauthorizedException,
   UnprocessableEntityException,
 } from '@nestjs/common';
-import { CrudService } from './crud.service';
-import { AbstractEntity } from './abstract.entity';
-import { isUUID } from 'class-validator';
 import { ConfigService } from '@nestjs/config';
+import { isUUID } from 'class-validator';
+import { AbstractEntity } from 'common/entities';
 import { FindOptionsRelations } from 'typeorm';
+import { CrudService } from './crud.service';
 
 export abstract class IdToValueInterceptor<Entity extends AbstractEntity>
   implements NestInterceptor
 {
-  constructor(
-    protected config: ConfigService,
-    protected service: CrudService<Entity>,
-  ) {}
+  constructor(protected config: ConfigService, protected service: CrudService<Entity>) {}
 
   protected getUserId(request: any) {
     if (this.config.get<boolean>('auth.local')) {

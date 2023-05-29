@@ -25,12 +25,7 @@ export default () => ({
     url: process.env.DATABASE_URL,
     synchronize: false,
     migrationsRun: false,
-    entities: [__dirname + '/../**/*.entity{.ts,.js}'],
     autoLoadEntities: true,
-    migrations: [__dirname + '/../**/migrations/**/*{.ts,.js}'],
-    cli: {
-      migrationsDir: 'src/migrations',
-    },
     logging: process.env.LOCAL === 'true',
   },
 });

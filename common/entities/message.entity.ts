@@ -1,7 +1,5 @@
-import { AuditEntity } from 'src/_shared/abstract.entity';
-import { Room } from 'src/resources/rooms/entities/room.entity';
-import { User } from 'src/resources/users/entities/user.entity';
 import { Column, Entity, ManyToOne, Relation } from 'typeorm';
+import { AuditEntity, Room, User } from './index';
 
 @Entity()
 export class Message extends AuditEntity {

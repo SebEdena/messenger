@@ -1,0 +1,19 @@
+{
+  "name": "common",
+  "private": true,
+  "scripts": {
+    "clean": "tsc --build --clean",
+    "build": "npm run clean && tsc"
+  },
+  "dependencies": {
+    "@nestjs/swagger": "^6.3.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.0",
+    "typeorm": "^0.3.16"
+  },
+  "devDependencies": {
+    "@types/node": "^20.2.1",
+    "tslib": "^2.5.2",
+    "typescript": "^5.0.4"
+  }
+}

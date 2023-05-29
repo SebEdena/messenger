@@ -1,3 +1,4 @@
+import { AbstractEntity } from 'common/entities';
 import {
   DeepPartial,
   FindOptionsOrder,
@@ -5,7 +6,6 @@ import {
   FindOptionsWhere,
   Repository,
 } from 'typeorm';
-import { AbstractEntity } from './abstract.entity';
 
 export type FindManyOptions<Entity> = {
   filter: FindOptionsWhere<Entity>;
@@ -23,19 +23,13 @@ export class CrudService<Entity extends AbstractEntity> {
   }
 
   async find(
-    {
-      filter,
-      sort,
-      skip,
-      take,
-      relations,
-    }: Partial<FindManyOptions<Entity>> = {
+    { filter, sort, skip, take, relations }: Partial<FindManyOptions<Entity>> = {
       filter: {},
       sort: { id: 'ASC' } as FindOptionsOrder<Entity>,
       skip: 0,
       take: undefined,
       relations: {},
-    },
+    }
   ): Promise<Entity[]> {
     return this.repository.find({
       where: filter,
@@ -48,14 +42,14 @@ export class CrudService<Entity extends AbstractEntity> {
 
   async findOne(
     filter: FindOptionsWhere<Entity> = {},
-    relations: FindOptionsRelations<Entity> = {},
+    relations: FindOptionsRelations<Entity> = {}
   ): Promise<Entity | null> {
     return this.repository.findOne({ where: filter, relations });
   }
 
   async findOneById(
     id: string,
-    relations: FindOptionsRelations<Entity> = {},
+    relations: FindOptionsRelations<Entity> = {}
   ): Promise<Entity | null> {
     return this.findOne({ id } as FindOptionsWhere<Entity>, relations);
   }

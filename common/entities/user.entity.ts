@@ -2,8 +2,8 @@ import { ApiHideProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
 import { IsEmail, IsString, MaxLength } from 'class-validator';
 import { Column, Entity, ManyToMany, Relation } from 'typeorm';
-import { Room } from '../../rooms/entities/room.entity';
-import { AbstractEntity } from 'src/_shared/abstract.entity';
+import { AbstractEntity } from './abstract.entity';
+import { Room } from './room.entity';
 
 @Entity()
 export class User extends AbstractEntity {

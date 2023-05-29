@@ -1,11 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Message, Room, User } from 'common/entities';
 import { CrudService, FindManyOptions } from 'src/_shared/crud.service';
 import { Repository, SelectQueryBuilder } from 'typeorm';
-import { Message } from '../messages/entities/message.entity';
-import { User } from '../users/entities/user.entity';
-import { Room } from './entities/room.entity';
 
 @Injectable()
 export class RoomsService extends CrudService<Room> {
@@ -16,7 +14,7 @@ export class RoomsService extends CrudService<Room> {
     @InjectRepository(Room)
     protected repository: Repository<Room>,
     @InjectRepository(Message)
-    protected repositoryMessage: Repository<Message>,
+    protected repositoryMessage: Repository<Message>
   ) {
     super(repository);
     this.defaultPagination = config.get<number>('app.defaultPagination');
@@ -40,15 +38,14 @@ export class RoomsService extends CrudService<Room> {
 
   async fetchRooms(
     user: User,
-    { filter, skip, take }: Partial<FindManyOptions<Room>>,
+    { filter, skip, take }: Partial<FindManyOptions<Room>>
   ): Promise<Room[]> {
     const rooms = await this.repository
       .createQueryBuilder('room')
       .innerJoinAndSelect('room.users', 'users')
-      .where(
-        'room.id IN (SELECT ru.id from room_user ru where ru.userId = :userId)',
-        { userId: user.id },
-      )
+      .where('room.id IN (SELECT ru.id from room_user ru where ru.userId = :userId)', {
+        userId: user.id,
+      })
       .where(filter ?? {})
       .orderBy('room.updatedAt', 'DESC')
       .skip(skip)
@@ -64,10 +61,7 @@ export class RoomsService extends CrudService<Room> {
         return qb
           .from(Message, 'm')
           .select('m.*')
-          .addSelect(
-            'row_number() over (partition by m.roomId order by m.createdAt desc)',
-            'rank',
-          )
+          .addSelect('row_number() over (partition by m.roomId order by m.createdAt desc)', 'rank')
           .innerJoinAndSelect('m.author', 'author')
           .where('m.roomId IN (:...rooms)', {
             rooms: Array.from(roomMap.keys()),

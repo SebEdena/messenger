@@ -3,8 +3,8 @@ import { UnauthorizedException } from '@nestjs/common/exceptions';
 import { ConfigService } from '@nestjs/config';
 import { JwtService, JwtSignOptions } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
+import { RefreshToken } from 'common/entities';
 import { CrudService } from 'src/_shared/crud.service';
-import { RefreshToken } from 'src/auth/entities/refresh-token.entity';
 import { Repository } from 'typeorm';
 
 export type JwtPayload = {
@@ -22,7 +22,7 @@ export class TokenService extends CrudService<RefreshToken> {
     @InjectRepository(RefreshToken)
     protected repository: Repository<RefreshToken>,
     private config: ConfigService,
-    private jwtService: JwtService,
+    private jwtService: JwtService
   ) {
     super(repository);
     this.jwtAccessConfig = this.config.get('jwt.access');
@@ -36,14 +36,14 @@ export class TokenService extends CrudService<RefreshToken> {
           uid: userId,
           sub: userId,
         } as JwtPayload,
-        this.jwtAccessConfig,
+        this.jwtAccessConfig
       ),
       this.jwtService.signAsync(
         {
           uid: userId,
           sub: userId,
         } as JwtPayload,
-        this.jwtRefreshConfig,
+        this.jwtRefreshConfig
       ),
     ]);
 

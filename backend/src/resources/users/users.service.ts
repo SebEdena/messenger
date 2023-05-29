@@ -1,17 +1,17 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { CreateUserDto } from 'common/dtos';
+import { User } from 'common/entities';
+import { CrudService } from 'src/_shared/crud.service';
 import { BcryptService } from 'src/resources/users/services/bcrypt/bcrypt.service';
 import { Repository } from 'typeorm';
-import { CreateUserDto } from './dto/create-user.dto';
-import { User } from './entities/user.entity';
-import { CrudService } from 'src/_shared/crud.service';
 
 @Injectable()
 export class UsersService extends CrudService<User> {
   constructor(
     @InjectRepository(User)
     protected repository: Repository<User>,
-    private bcrypt: BcryptService,
+    private bcrypt: BcryptService
   ) {
     super(repository);
   }
@@ -22,15 +22,10 @@ export class UsersService extends CrudService<User> {
     });
 
     if (userInDb) {
-      throw new HttpException(
-        `User ${createUserDto.email} already exists.`,
-        HttpStatus.CONFLICT,
-      );
+      throw new HttpException(`User ${createUserDto.email} already exists.`, HttpStatus.CONFLICT);
     }
 
-    const hashedPassword = await this.bcrypt.hashPassword(
-      createUserDto.password,
-    );
+    const hashedPassword = await this.bcrypt.hashPassword(createUserDto.password);
 
     return await super.create({
       email: createUserDto.email,

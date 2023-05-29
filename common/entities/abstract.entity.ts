@@ -1,9 +1,5 @@
 import { IsUUID } from 'class-validator';
-import {
-  CreateDateColumn,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 export class AbstractEntity {
   @IsUUID(4)

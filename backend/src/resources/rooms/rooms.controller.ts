@@ -13,18 +13,14 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ApiBearerAuth, ApiParam, ApiTags } from '@nestjs/swagger';
+import { CreateMessageDto, CreateRoomDto, UpdateRoomDto } from 'common/dtos';
+import { Message, Room, User } from 'common/entities';
 import { ConnectedUser } from 'src/auth/decorators/connected-user.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { ConnectedUserInterceptor } from '../../auth/interceptors/connected-user.interceptor';
 import { GetMessage } from '../messages/decorators/get-message.decorator';
-import { CreateMessageDto } from '../messages/dto/create-message.dto';
-import { Message } from '../messages/entities/message.entity';
 import { MessagesService } from '../messages/messages.service';
-import { User } from '../users/entities/user.entity';
 import { GetRoom } from './decorators/get-room.decorator';
-import { CreateRoomDto } from './dto/create-room.dto';
-import { UpdateRoomDto } from './dto/update-room.dto';
-import { Room } from './entities/room.entity';
 import { GetRoomInterceptor } from './interceptors/get-room.interceptor';
 import { RoomsService } from './rooms.service';
 
@@ -39,7 +35,7 @@ export class RoomsController {
   constructor(
     private readonly config: ConfigService,
     private readonly roomsService: RoomsService,
-    private readonly messageService: MessagesService,
+    private readonly messageService: MessagesService
   ) {
     this.defaultPagination = config.get<number>('app.defaultPagination');
   }
@@ -57,10 +53,7 @@ export class RoomsController {
   @Get(':roomId')
   @UseInterceptors(GetRoomInterceptor)
   @ApiParam({ name: 'roomId', format: 'uuid', type: 'string' })
-  findOne(
-    @Param('roomId', ParseUUIDPipe) roomId: string,
-    @GetRoom() room: Room,
-  ) {
+  findOne(@Param('roomId', ParseUUIDPipe) roomId: string, @GetRoom() room: Room) {
     return room;
   }
 
@@ -70,7 +63,7 @@ export class RoomsController {
   update(
     @Param('roomId', ParseUUIDPipe) roomId: string,
     @Body() updateRoomDto: UpdateRoomDto,
-    @GetRoom() room: Room,
+    @GetRoom() room: Room
   ) {
     return this.roomsService.update(room, updateRoomDto);
   }
@@ -78,10 +71,7 @@ export class RoomsController {
   @Delete(':roomId')
   @UseInterceptors(GetRoomInterceptor)
   @ApiParam({ name: 'roomId', format: 'uuid', type: 'string' })
-  remove(
-    @Param('roomId', ParseUUIDPipe) roomId: string,
-    @GetRoom() room: Room,
-  ) {
+  remove(@Param('roomId', ParseUUIDPipe) roomId: string, @GetRoom() room: Room) {
     return this.roomsService.delete(room.id);
   }
 
@@ -92,7 +82,7 @@ export class RoomsController {
     @Param('roomId', ParseUUIDPipe) roomId: string,
     @Query('skip') skip = 0,
     @Query('take') take = this.defaultPagination,
-    @GetRoom() room: Room,
+    @GetRoom() room: Room
   ) {
     return this.messageService.find({
       filter: { room: { id: room.id } },
@@ -109,7 +99,7 @@ export class RoomsController {
     @Param('roomId', ParseUUIDPipe) roomId: string,
     @Body() message: CreateMessageDto,
     @GetRoom() room: Room,
-    @ConnectedUser() user: User,
+    @ConnectedUser() user: User
   ) {
     return this.messageService.create({
       ...message,
@@ -125,7 +115,7 @@ export class RoomsController {
   updateMessage(
     @Param('roomId', ParseUUIDPipe) roomId: string,
     @Body() messageUpdate: UpdateRoomDto,
-    @GetMessage() message: Message,
+    @GetMessage() message: Message
   ) {
     return this.messageService.update(message, messageUpdate);
   }
@@ -134,10 +124,7 @@ export class RoomsController {
   @UseInterceptors(GetRoomInterceptor)
   @ApiParam({ name: 'roomId', format: 'uuid', type: 'string' })
   @ApiParam({ name: 'messageId', format: 'uuid', type: 'string' })
-  deleteMessage(
-    @Param('roomId', ParseUUIDPipe) roomId: string,
-    @GetMessage() message: Message,
-  ) {
+  deleteMessage(@Param('roomId', ParseUUIDPipe) roomId: string, @GetMessage() message: Message) {
     return this.messageService.delete(message.id);
   }
 }

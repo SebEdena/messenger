@@ -1,17 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { Message } from 'common/entities/message.entity';
 import { IdToValueInterceptor } from 'src/_shared/id-to-value.interceptor';
-import { Message } from '../entities/message.entity';
 import { MessagesService } from '../messages.service';
 
 @Injectable()
 export class GetRoomInterceptor extends IdToValueInterceptor<Message> {
   key = 'messageId';
 
-  constructor(
-    protected config: ConfigService,
-    protected messages: MessagesService,
-  ) {
+  constructor(protected config: ConfigService, protected messages: MessagesService) {
     super(config, messages);
   }
 

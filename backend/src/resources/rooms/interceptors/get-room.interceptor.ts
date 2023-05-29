@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { Room } from 'common/entities';
 import { IdToValueInterceptor } from 'src/_shared/id-to-value.interceptor';
-import { Room } from '../entities/room.entity';
-import { RoomsService } from '../rooms.service';
 import { FindOptionsRelations } from 'typeorm';
+import { RoomsService } from '../rooms.service';
 
 @Injectable()
 export class GetRoomInterceptor extends IdToValueInterceptor<Room> {
