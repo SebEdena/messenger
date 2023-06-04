@@ -4,23 +4,40 @@
 @tailwind utilities;
 
 @layer base {
-	@font-face {
-		font-family: 'Lato';
-		src: url('lib/fonts/lato-regular.woff2') format('woff2'),
-			url('lib/fonts/lato-italic.woff2') format('woff2'),
-			url('lib/fonts/lato-bold.woff2') format('woff2');
-	}
+  @font-face {
+    font-family: 'Lato';
+    src: url('lib/fonts/lato-regular.woff2') format('woff2'),
+      url('lib/fonts/lato-italic.woff2') format('woff2'),
+      url('lib/fonts/lato-bold.woff2') format('woff2');
+  }
 
-	:root {
-		--color-background: 248 250 252;
-		--color-font: 15 23 42;
-		font-family: 'Lato';
-		background-color: rgb(var(--color-background));
-		color: rgb(var(--color-font));
-	}
+  :root {
+    --color-primary: 248 250 252;
+    --color-secondary: 237 137 75;
+    --color-tertiary: 239 68 68;
+    --color-accent: 0 132 255;
+    --color-font: 15 23 42;
+    font-family: 'Lato';
+    background-color: rgb(var(--color-primary));
+    color: rgb(var(--color-font));
+    color-scheme: dark light;
+  }
 
-	:root.dark {
-		--color-background: 15 23 42;
-		--color-font: 248 250 252;
-	}
+  :root.dark {
+    --color-primary: 15 23 42;
+    --color-font: 248 250 252;
+  }
+
+  :root,
+  .body {
+    min-height: 100vh;
+  }
+
+  .gradient {
+    background: linear-gradient(
+      to right,
+      rgb(var(--color-secondary)) 0%,
+      rgb(var(--color-tertiary)) 100%
+    );
+  }
 }

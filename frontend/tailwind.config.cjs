@@ -1,18 +1,21 @@
 const config = {
-	content: ['./src/**/*.{html,js,svelte,ts}'],
+  content: ['./src/**/*.{html,js,svelte,ts}'],
 
-	theme: {
-		extend: {
-			colors: {
-				background: 'rgb(var(--color-background))',
-				font: 'rgb(var(--color-font))'
-			}
-		}
-	},
+  theme: {
+    extend: {
+      colors: {
+        primary: 'rgb(var(--color-primary))',
+        secondary: 'rgb(var(--color-primary))',
+        tertiary: 'rgb(var(--color-primary))',
+        accent: 'rgb(var(--color-primary))',
+        font: 'rgb(var(--color-font))',
+      },
+    },
+  },
 
-	plugins: [],
+  plugins: [],
 
-	darkMode: 'class'
+  darkMode: 'class',
 };
 
 module.exports = config;
